@@ -1,0 +1,22 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Edit User</h1>
+
+  <div mat-dialog-content>
+    <form [formGroup]="fgUserEdit" (ngSubmit)="onSubmitEditUser(fgUserEdit)">
+      <div class="dialog-content">
+        <div class="div-flex">
+          <input class="input" formControlName="name" placeholder="User" type="text" style="width: 100%" />
+
+          <button class="add" maxlength="20" type="submit">
+            <span class="add-span">Save</span>
+            <img src="../../assets/icon_done.svg" />
+          </button>
+        </div>
+
+        <div class="error" *ngIf="fgUserEdit.get('name')?.invalid && (fgUserEdit.get('name')?.dirty)">
+          Invalid user name
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

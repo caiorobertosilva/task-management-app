@@ -1,0 +1,42 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Task</h1>
+
+  <div mat-dialog-content>
+    <form [formGroup]="fgTaskEdit" (ngSubmit)="onSubmitEditTask(fgTaskEdit)">
+      <div class="dialog-content">
+        <div class="div-flex">
+          <input class="input input-dialog" formControlName="name" placeholder="Task" type="text" />
+
+          <div class="error" *ngIf="fgTaskEdit.get('name')?.invalid && (fgTaskEdit.get('name')?.dirty)">
+            Invalid task name
+          </div>
+        </div>
+
+        <div class="div-flex">
+          <input class="input input-dialog" formControlName="description" placeholder="Description" type="text" />
+
+          <div class="error" *ngIf="fgTaskEdit.get('description')?.invalid && (fgTaskEdit.get('description')?.dirty)">
+            Invalid description
+          </div>
+        </div>
+
+        <mat-select formControlName="state" placeholder="State" class="select">
+          <mat-option *ngFor="let s of state" [value]="s.value" [disabled]="s.disabled">
+            {{ s.viewValue }}
+          </mat-option>
+        </mat-select>
+
+        <mat-select #a formControlName="assignee" placeholder="Assignee" class="select">
+          <mat-option *ngFor="let u of users" [value]="u.name">
+            {{ u.name }}
+          </mat-option>
+        </mat-select>
+
+        <button class="add add-dialog" maxlength="20" type="submit">
+          <span class="add-span">Save</span>
+          <img src="../../assets/icon_done.svg" />
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

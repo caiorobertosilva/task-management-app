@@ -1,0 +1,103 @@
+<div class="content" role="main">
+  <div class="div-flex">
+    <div class="card-container">
+      <form [formGroup]="fgUser" (ngSubmit)="onSubmitUser(fgUser)">
+        <div class="div-add">
+          <div class="div-flex">
+            <input class="input" formControlName="name" placeholder="User" type="text" value="" />
+
+            <button class="add" maxlength="20" type="submit">
+              <span class="add-span">Add</span>
+              <img src="../../assets/icon_add.svg" />
+            </button>
+          </div>
+
+          <div class="error" *ngIf="fgUser.get('name')?.invalid && (fgUser.get('name')?.dirty)">
+            Invalid user name
+          </div>
+        </div>
+      </form>
+
+      <div class="card" *ngFor="let u of users; let i = index;">
+        <div class="card-content">
+          <span class="card-title">Name</span>
+          <span>{{ u.name }}</span>
+        </div>
+
+        <div class="card-content">
+          <span class="card-title">Tasks</span>
+
+          <div>
+            <span *ngFor="let t of u.tasks">
+              {{ t.name }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="button" type="button" (click)="editUser(i)">
+            <img src="../../assets/icon_edit.svg" height="20px" />
+          </button>
+
+          <button class="button delete" type="button" (click)="deleteUser(i)">
+            <img src="../../assets/icon_delete.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-flex">
+    <div class="card-container">
+      <form [formGroup]="fgTask" (ngSubmit)="onSubmitTask(fgTask)">
+        <div class="div-add">
+          <div class="div-flex">
+            <input class="input" formControlName="name" maxlength="20" placeholder="Task" type="text" value="" />
+
+            <button class="add" type="submit">
+              <span class="add-span">Add</span>
+              <img src="../../assets/icon_add.svg" />
+            </button>
+          </div>
+
+          <div class="error" *ngIf="fgTask.get('name')?.invalid && (fgTask.get('name')?.dirty)">
+            Invalid task name
+          </div>
+        </div>
+      </form>
+
+      <div class="card" *ngFor="let t of tasks; let i = index;">
+        <div class="card-task">
+          <div class="card-content">
+            <span class="card-title">Task</span>
+            <span class="card-data">{{ t.name }}</span>
+            <span class="card-title">Assignee</span>
+            <span class="card-data">{{ t.assignee }}</span>
+          </div>
+
+          <div class="card-content">
+            <span class="card-title">Creation</span>
+            <span class="card-data">{{ t.creationDate | date: 'MM/dd/yyyy' }}</span>
+            <span class="card-title">Status</span>
+            <span class="card-data">{{ t.state }}</span>
+          </div>
+
+          <div class="card-content">
+            <span class="card-title">Modification</span>
+            <span class="card-data">{{ t.modificationDate | date: 'MM/dd/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="button" type="button" (click)="editTask(i)">
+            <img src="../../assets/icon_edit.svg" height="20px" />
+          </button>
+
+          <button class="button delete" type="button" (click)="deleteTask(i)">
+            <img src="../../assets/icon_delete.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
