@@ -110,17 +110,19 @@ export class PageHomeComponent implements OnInit {
   }
 
   getUserTasks() {
-    for (let i = 0; i < this.users?.length; i++) {
-      this.users[i].tasks = [];
+    for (let user of this.users) {
+      user.tasks = [];
     }
 
-    for (let i = 0; i < this.users?.length; i++) {
-      for (let t = 0; t < this.tasks?.length; t++) {
-        if (this.users[i].name === this.tasks[t].assignee) {
-          this.users[i].tasks?.push({ name: this.tasks[t].name, state: this.tasks[t].state });
+    for (let user of this.users) {
+      for (let task of this.tasks) {
+        if (user.name === task.assignee) {
+          user.tasks?.push({ name: task.name, state: task.state });
         }
       }
     }
+
+    console.log(this.users);
   }
 
   onSubmitUser(form: FormGroup) {
@@ -234,30 +236,30 @@ export class DialogTask implements OnInit {
 
     this.fgTaskEdit.get("assignee")?.valueChanges.subscribe(selectedValue => {
       this.getUserTasks();
-      this.state[1].disabled = selectedValue === 'None' ? true : (this.inProgress > 0 && this.users[this.data.i + 1].name === selectedValue ? true : false);
+      this.state[1].disabled = selectedValue === 'None' ? true : (this.inProgress > 0 && this.users[this.data.i].name === selectedValue ? true : false);
       this.state[2].disabled = selectedValue === 'None' ? true : false;
 
-      if (selectedValue === 'None' || this.inProgress > 0 && this.users[this.data.i + 1].name === selectedValue) {
+      if (selectedValue === 'None' || this.inProgress > 0 && this.users[this.data.i].name === selectedValue) {
         this.fgTaskEdit.get('state')?.setValue('in queue');
       }
     })
   }
 
   getUserTasks() {
-    for (let i = 0; i < this.users?.length; i++) {
-      this.users[i].tasks = [];
-    }
-
     this.tasks = [];
     this.tasks = JSON.parse(localStorage.getItem('tasks') || '{}');
     this.inProgress = 0;
 
-    for (let i = 0; i < this.users?.length; i++) {
-      for (let t = 0; t < this.tasks?.length; t++) {
-        if (this.users[i].name === this.tasks[t].assignee) {
-          this.users[i].tasks?.push({ name: this.tasks[t].name, state: this.tasks[t].state });
+    for (let user of this.users) {
+      user.tasks = [];
+    }
 
-          if (this.tasks[t].state === 'in progress') {
+    for (let user of this.users) {
+      for (let task of this.tasks) {
+        if (user.name === task.assignee) {
+          user.tasks?.push({ name: task.name, state: task.state });
+
+          if (task.state === 'in progress') {
             this.inProgress++;
           }
         }
@@ -294,11 +296,11 @@ export class DialogTask implements OnInit {
           assignee: form.value.assignee
         });
       } else {
-        old[this.data.i + 1].name = form.value.name;
-        old[this.data.i + 1].description = form.value.description;
-        old[this.data.i + 1].modificationDate = newDate;
-        old[this.data.i + 1].state = form.value.state;
-        old[this.data.i + 1].assignee = form.value.assignee;
+        old[this.data.i].name = form.value.name;
+        old[this.data.i].description = form.value.description;
+        old[this.data.i].modificationDate = newDate;
+        old[this.data.i].state = form.value.state;
+        old[this.data.i].assignee = form.value.assignee;
       }
 
       localStorage.setItem('tasks', JSON.stringify(old));
